@@ -48,9 +48,14 @@ type ActionType =
       id: number
     }
 
+const useNumber = (initialValue: number) => useState<number>(initialValue)
+
+type UseNumberValue = ReturnType<typeof useNumber>[0]
+type UseNumberSetValue = ReturnType<typeof useNumber>[1]
+
 const Incrementer: React.FunctionComponent<{
-  value: number
-  setValue: React.Dispatch<React.SetStateAction<number>>
+  value: UseNumberValue
+  setValue: UseNumberSetValue
 }> = ({ value, setValue }) => (
   <button onClick={() => setValue(value + 1)}>Add - {value}</button>
 )
@@ -98,7 +103,7 @@ function App() {
       })
     }
   }, [])
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useNumber(0)
   return (
     <div>
       <Heading title="Introduction" />
