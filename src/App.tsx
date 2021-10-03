@@ -47,6 +47,25 @@ type ActionType =
       type: "REMOVE"
       id: number
     }
+const Button: React.FunctionComponent<
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > & {
+    title?: string
+  }
+> = ({ title, children, ...rest }) => (
+  <button
+    {...rest}
+    style={{
+      fontSize: "xx-large",
+      color: "white",
+      backgroundColor: "red",
+    }}
+  >
+    {title ?? children}
+  </button>
+)
 
 const useNumber = (initialValue: number) => useState<number>(initialValue)
 
@@ -57,7 +76,7 @@ const Incrementer: React.FunctionComponent<{
   value: UseNumberValue
   setValue: UseNumberSetValue
 }> = ({ value, setValue }) => (
-  <button onClick={() => setValue(value + 1)}>Add - {value}</button>
+  <Button onClick={() => setValue(value + 1)} title={`Add - ${value}`} />
 )
 
 function App() {
@@ -123,7 +142,7 @@ function App() {
       ))}
       <div>
         <input type="text" ref={newTodoRef} />
-        <button onClick={onAddTodo}>onAdd</button>
+        <Button onClick={onAddTodo}>Add to Do</Button>
       </div>
     </div>
   )
