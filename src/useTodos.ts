@@ -3,6 +3,7 @@ import { useCallback, useReducer } from "react"
 interface Todo {
   id: number
   text: string
+  done: boolean
 }
 type ActionType =
   | {
