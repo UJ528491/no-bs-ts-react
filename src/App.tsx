@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import "./App.css";
-import { useTodos } from "./useTodos";
+import { TodosProvider, useTodos, useAddTodo, useRemoveTodo } from "./useTodos";
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 const Box: React.FunctionComponent = ({ children }) => (
@@ -57,9 +57,9 @@ function UL<T>({
 }
 
 function App() {
-  const { todos, addTodo, removeTodo } = useTodos([
-    { id: 0, text: "Hey there", done: false },
-  ]);
+  const todos = useTodos();
+  const addTodo = useAddTodo();
+  const removeTodo = useRemoveTodo();
   const newTodoRef = useRef<HTMLInputElement>(null);
 
   const onAddTodo = useCallback(() => {
@@ -93,4 +93,21 @@ function App() {
     </div>
   );
 }
-export default App;
+
+const AppWrapper = () => (
+  <TodosProvider
+    initialTodos={[{ id: 0, text: "Hey there useContext", done: false }]}
+  >
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "50% 50%",
+      }}
+    >
+      <App />
+      <App />
+    </div>
+  </TodosProvider>
+);
+
+export default AppWrapper;
