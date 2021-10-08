@@ -94,6 +94,13 @@ function App() {
   );
 }
 
+const JustShowTodos = () => {
+  const todos = useTodos();
+  return (
+    <UL items={todos} itemClick={() => {}} render={todo => <>{todo.text}</>} />
+  );
+};
+
 const AppWrapper = () => (
   <TodosProvider
     initialTodos={[{ id: 0, text: "Hey there useContext", done: false }]}
@@ -105,7 +112,7 @@ const AppWrapper = () => (
       }}
     >
       <App />
-      <App />
+      <JustShowTodos />
     </div>
   </TodosProvider>
 );
