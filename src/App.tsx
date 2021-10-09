@@ -7,6 +7,8 @@ import {
   useRemoveTodo,
   useTodosManager,
 } from "./useTodos";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 const Box: React.FunctionComponent = ({ children }) => (
@@ -108,18 +110,24 @@ const JustShowTodos = () => {
   );
 };
 
+// const AppWrapper = () => (
+//   <TodosProvider initialTodos={[]}>
+//     <div
+//       style={{
+//         display: "grid",
+//         gridTemplateColumns: "50% 50%",
+//       }}
+//     >
+//       <App />
+//       <JustShowTodos />
+//     </div>
+//   </TodosProvider>
+// );
+
 const AppWrapper = () => (
-  <TodosProvider initialTodos={[]}>
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "50% 50%",
-      }}
-    >
-      <App />
-      <JustShowTodos />
-    </div>
-  </TodosProvider>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 export default AppWrapper;
