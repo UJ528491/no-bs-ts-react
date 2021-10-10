@@ -7,8 +7,9 @@ import {
   useRemoveTodo,
   useTodosManager,
 } from "./useTodos";
-import { Provider } from "react-redux";
-import { store } from "./store";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import store, { addTodo, removeTodo } from "./store";
+import { selectTodos } from "./store";
 
 const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 const Box: React.FunctionComponent = ({ children }) => (
@@ -66,15 +67,14 @@ function UL<T>({
 const initialTodos = [{ id: 0, text: "Hey there useContext", done: false }];
 
 function App() {
-  const { todos } = useTodosManager(initialTodos);
-  const addTodo = useAddTodo();
-  const removeTodo = useRemoveTodo();
+  const todos = useSelector(selectTodos);
+  const dispatch = useDispatch();
   const newTodoRef = useRef<HTMLInputElement>(null);
 
   const onAddTodo = useCallback(() => {
     console.log(newTodoRef.current);
     if (newTodoRef.current) {
-      addTodo(newTodoRef.current.value);
+      dispatch(addTodo(newTodoRef.current.value));
       newTodoRef.current.value = "";
     }
   }, [addTodo]);
@@ -90,7 +90,9 @@ function App() {
         render={todo => (
           <>
             {todo.text}
-            <button onClick={() => removeTodo(todo.id)}>Remove</button>
+            <button onClick={() => dispatch(removeTodo(todo.id))}>
+              Remove
+            </button>
           </>
         )}
       />
@@ -126,7 +128,15 @@ const JustShowTodos = () => {
 
 const AppWrapper = () => (
   <Provider store={store}>
-    <App />
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "50% 50%",
+      }}
+    >
+      <App />
+      <JustShowTodos />
+    </div>
   </Provider>
 );
 
