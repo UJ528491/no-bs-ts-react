@@ -72,7 +72,6 @@ function App() {
   const newTodoRef = useRef<HTMLInputElement>(null);
 
   const onAddTodo = useCallback(() => {
-    console.log(newTodoRef.current);
     if (newTodoRef.current) {
       dispatch(addTodo(newTodoRef.current.value));
       newTodoRef.current.value = "";
@@ -106,25 +105,11 @@ function App() {
 }
 
 const JustShowTodos = () => {
-  const { todos } = useTodosManager(initialTodos);
+  const todos = useSelector(selectTodos);
   return (
     <UL items={todos} itemClick={() => {}} render={todo => <>{todo.text}</>} />
   );
 };
-
-// const AppWrapper = () => (
-//   <TodosProvider initialTodos={[]}>
-//     <div
-//       style={{
-//         display: "grid",
-//         gridTemplateColumns: "50% 50%",
-//       }}
-//     >
-//       <App />
-//       <JustShowTodos />
-//     </div>
-//   </TodosProvider>
-// );
 
 const AppWrapper = () => (
   <Provider store={store}>
